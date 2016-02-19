@@ -3,7 +3,7 @@ description: Hi! This is my personal blog where I'll be posting software dev rel
 meta_description: "Federico Rivollier blog. Software Development."
 
 markdown: kramdown
-highlighter: pygments
+highlighter: rouge
 logo: false
 paginate: 15
 baseurl: /
