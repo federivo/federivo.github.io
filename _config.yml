@@ -1,5 +1,5 @@
-name: Federico Rivollier's Blog
-description: Hi! This is my personal blog where I'll be posting software dev related stuff.
+name: federivo's blog
+description: Software development related stuff.
 meta_description: "Federico Rivollier blog. Software Development."
 
 markdown: kramdown
@@ -9,8 +9,15 @@ paginate: 15
 baseurl: /
 domain_name: 'http://federivo.github.io'
 google_analytics: 'UA-74097543-1'
-gems: [jekyll-paginate]
+gems: [jekyll-paginate,jekyll-gist]
 
 # Details for the RSS feed generator
-url:            'federivo.github.io'
-author:         'Federico Rivollier'
+url: 'federivo.github.io'
+author: 'Federico Rivollier'
+
+sass:
+    sass_dir: _sass
+    style: :compressed
+
+gist:
+  noscript: false
