@@ -20,19 +20,19 @@ Let's do it.
 
 We won't go deep into modules creation.
 
-#### Create the module's folder in `app/code`
+### Create the module's folder in `app/code`
 
 Convention: `<magento-root>/app/code/<vendor>/<module>/`
 
 In my example: `<magento-root>/app/code/Federivo/CustomerExport/`
 
-#### Create the module.xml file
+### Create the module.xml file
 
 `<magento-root>/app/code/Federivo/CustomerExport/etc/module.xml`
 
 {% gist ed0601169b135bc78fa6595a47f186b2 module.xml %}
 
-#### Create the di.xml file
+### Create the di.xml file
 
 `<magento-root>/app/code/Federivo/CustomerExport/etc/di.xml`
 
@@ -45,18 +45,17 @@ The `di.xml` file enables us to inject arguments in class constructors (among ot
 So with the `di.xml` file we are telling Magento to inject a new object in the "commands" argument of `Magento\Framework\Console\CommandList` constructor. The object we are injecting will be an instance of `Federivo\CustomerExport\Command\ExportCustomerCommand`. This way Magento will be aware of the existence of our new command.
 And that brings us to the class we need to create that will perform the actual export.
 
-#### Create the ExportCustomerCommand class
+### Create the ExportCustomerCommand class
 
 `<magento-root>/app/code/Federivo/CustomerExport/Command/ExportCustomerCommand.php`
 
 {% gist f6605e943c3414e9d8da25b148efbcdc ExportCustomerCommand.php %}
 
-
 There are 3 important things: Extend your command from `\Symfony\Component\Console\Command\Command`, the `configure()` method and the `execute()` method.
 
 Let's review each one.
 
-#### Extend your class from `\Symfony\Component\Console\Command\Command`. 
+### Extend your class from `\Symfony\Component\Console\Command\Command`. 
 
 {% highlight php startinline %}
 <?php
@@ -87,13 +86,59 @@ public function __construct(
 }
 {% endhighlight %}
 
-#### Implement the `configure()` method. 
+### Implement the `configure()` method. 
+
+{% highlight php startinline %}
+<?php
+protected function configure()
+{
+    $options = [
+        new InputOption(
+            "output",
+            null,
+            InputOption::VALUE_OPTIONAL,
+            "Output format for the customer export file"
+        ),
+    ];
+    $this
+        ->setName("federivo:export-customers")
+        ->setDescription('Export customer data. Use --output="csv" or --output="json" for configuring the output format.')
+        ->setDefinition($options);
+}
+{% endhighlight %}
 
 Here we set the configuration for our command. Notice the `setName()`, `setDescription()` and `setDefinition()`.
 
 `setName()` allows you to define how we'll be calling this command from the shell. `setDescription()` will set the description of our command that will be displayed in the shell when we run `bin/magento` without arguments. `setDefinition()` accepts an array of `Symfony\Component\Console\Input\InputOption` where we define our command's arguments. In this case, the "output" argument.
 
-#### Implement the `execute()` method.
+### Implement the `execute()` method.
+
+{% highlight php startinline %}
+<?php
+protected function execute(InputInterface $input, OutputInterface $output)
+{
+    $searchCriteria = $this->searchCriteriaBuilder->create();
+    $searchResults = $this->customerRepository->getList($searchCriteria);
+    $outputArray = [];
+    /** @var \Magento\Customer\Model\Data\Customer $customer */
+    foreach ($searchResults->getItems() as $customer) {
+        $name = "{$customer->getFirstname()} {$customer->getLastname()}";
+        $outputArray[] = [$name, $customer->getEmail()];
+    }
+    $filename = $this->getFilename();
+    //if the output selected is "json" export as json format.
+    if($input->getOption("output") == "json") {
+        $filename = $filename . ".json";
+        $this->fileHandler->filePutContents($filename, json_encode($outputArray));
+    }
+    else {
+        //if not export as csv
+        $filename = $filename . ".csv";
+        $this->csvHandler->saveData($filename, $outputArray);
+    }
+    $output->writeln("[INFO] Export finished. Export file generated: {$filename}");
+}
+{% endhighlight %}
 
 This is where the real work happens. This method is the one that gets triggered when you call the command from the shell.
 Notice the arguments `Symfony\Component\Console\Input\InputInterface $input` and `Symfony\Component\Console\Output\OutputInterface $output`.
@@ -101,6 +146,8 @@ Notice the arguments `Symfony\Component\Console\Input\InputInterface $input` and
 The $input argument will give you access to the parameters entered by the user when calling the command. We use it like: `$input->getOption("output")`.
 
 The $output argument will let you send messages back to the shell by using its `write()` or `writeln()` methods. We use it for informing the user that the export process is finished and where the export file is located: `$output->writeln("[INFO] Export finished. Export file generated: {$filename}");`
+
+### Install and use
 
 Now the only thing left is to install our module and start using it.
 
