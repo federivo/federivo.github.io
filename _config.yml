@@ -1,18 +1,20 @@
-name: federivo's blog
-description: Software development related stuff.
-meta_description: "Federico Rivollier blog. Software Development."
+name: Federico Rivollier
+description: I write about some of my journeys as a Magento developer in the ecommerce world.
+meta_description: "Federico Rivollier Blog. I write about software and Magento related topics."
 
 markdown: kramdown
-highlighter: rouge
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
 logo: false
 paginate: 15
 baseurl: /
-domain_name: 'http://federivo.github.io'
+domain_name: 'http://federivo.com'
 google_analytics: 'UA-74097543-1'
 gems: [jekyll-paginate,jekyll-gist]
 
 # Details for the RSS feed generator
-url: 'federivo.github.io'
+url: 'federivo.com'
 author: 'Federico Rivollier'
 
 sass:
