@@ -884,7 +884,7 @@ body:not(.post-template) .post-title {
 
 /* Keep images centred and within the bounds of the post-width */
 .post-content img {
-    display: block;
+    /*display: block;*/
     max-width: 100%;
     height: auto;
     margin: 0 auto;
@@ -1711,6 +1711,19 @@ body:not(.post-template) .post-title {
     }
 
 }
+
+
+
+/* ==========================================================================
+   12. Custom styles
+   ========================================================================== */
+
+ /* about me - logo image styles */
+.profile-img {
+    width: 44px;
+    height: 44px;
+}
+
 
 
 /* ==========================================================================
