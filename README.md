@@ -1,5 +1,7 @@
 # Federico Rivollier Blog
 
+www.federivo.com
+
 This is my blog. I publish Magento development related stuff.
 
 I used https://github.com/rosario/kasper theme, jekyll and github pages.
