@@ -9,7 +9,7 @@ title: About me
 
 #### In that journey, I've collaborated to create and improve a ton of Magento 1 and Magento 2 sites.
 
-#### You can find me in these places:
+#### You can find me in:
 
 ![Linkedin](assets/images/In-2C-66px-R.png){:class="profile-img"} [Linkedin](https://www.linkedin.com/in/federicorivollier/)
 
