@@ -9,7 +9,7 @@ kramdown:
 logo: false
 paginate: 15
 baseurl: /
-domain_name: 'http://federivo.com'
+domain_name: 'federivo.github.io'
 google_analytics: 'UA-74097543-1'
 gems: [jekyll-paginate,jekyll-gist]
 
