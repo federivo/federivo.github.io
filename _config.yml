@@ -9,12 +9,12 @@ kramdown:
 logo: false
 paginate: 15
 baseurl: /
-domain_name: 'https://federivo.github.io/'
+domain_name: 'www.federivo.com'
 google_analytics: 'UA-74097543-1'
 gems: [jekyll-paginate,jekyll-gist]
 
 # Details for the RSS feed generator
-url: 'https://federivo.github.io/'
+url: 'www.federivo.com'
 author: 'Federico Rivollier'
 
 sass:
